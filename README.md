@@ -221,6 +221,25 @@ class EditPost extends EditRecord
 }
 ```
 
+## Usage
+
+### Getting translated attributes
+
+```php
+$post = Post::first();
+echo $post->translate('en')->title; // My first post
+
+App::setLocale('en');
+echo $post->title; // My first post
+
+App::setLocale('de');
+echo $post->title; // Mein erster Post
+
+echo $post->{'title:es'} // Mi primer post
+```
+
+For more information about the package features, visit this link: https://github.com/Astrotomic/laravel-translatable/tree/main/docs
+
 ## Contributing
 
 Contributing is pretty chill and is highly appreciated! Just send a PR and/or create an issue!
@@ -231,7 +250,7 @@ Contributing is pretty chill and is highly appreciated! Just send a PR and/or cr
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The GNU License (GNU). Please see [License File](LICENSE.md) for more information.
 
 ### Screenshot
 ![Screenshot](screenshot.png)

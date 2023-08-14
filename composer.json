@@ -10,7 +10,7 @@
         "translate"
     ],
     "type": "project",
-    "license": "MIT",
+    "license": "GNU",
     "autoload": {
         "psr-4": {
             "Getabed\\FilamentTranslatable\\": "src/"
