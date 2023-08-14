@@ -1,0 +1,31 @@
+{
+    "name": "getabed/filament-translatable",
+    "description": "It incorporates functionalities to translate fields of Eloquent models. Allows you to add a section to the Filament forms with the model fields that you want to translate.",
+    "keywords": [
+        "filament",
+        "laravel",
+        "model",
+        "forms",
+        "field",
+        "translate"
+    ],
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Getabed\\FilamentTranslatable\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jesús García",
+            "email": "novadaemon@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1|^8.2",
+        "astrotomic/laravel-translatable": "^11.12",
+        "filament/forms": "^2.0"
+    }
+}
