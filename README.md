@@ -191,13 +191,17 @@ public static function form(Form $form): Form
                     ]),
                 Forms\Components\Tabs\Tab::make('Fr')
                     ->schema([
-                        Forms\Components\TextInput::make('fr.title'),
-                        Forms\Components\TextArea::make('fr.content'),
+                        Forms\Components\TextInput::make('fr.title')
+                        ->label('Titre'),
+                        Forms\Components\TextArea::make('fr.content')
+                        ->label('Contenu'),
                     ]),
                 Forms\Components\Tabs\Tab::make('Es_MX')
                 ->schema([
-                    Forms\Components\TextInput::make('es_MX.title'),
-                    Forms\Components\TextArea::make('es_MX.content'),
+                    Forms\Components\TextInput::make('es_MX.title')
+                    ->label('Título'),
+                    Forms\Components\TextArea::make('es_MX.content')
+                    ->label('Contenido'),
                 ]),
             ])->columnSpan(2)
         ]);
