@@ -12,7 +12,7 @@ composer require getabed/filament-translatable
 
 ## Configuration
 
-This puging use the Laravel package [astrotomic/laravel-translatable](https://github.com/Astrotomic/laravel-translatable), so you can follow the instructions in this package to implement translations in Eloquent models.
+This pluging use the Laravel package [astrotomic/laravel-translatable](https://github.com/Astrotomic/laravel-translatable), so you can follow the instructions in this package to implement translations in Eloquent models.
 
 Copy the configuration file to your project:
 
