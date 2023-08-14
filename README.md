@@ -7,7 +7,7 @@
 You can install the package via composer:
 
 ```bash
-composer require getbabed/filament-translatable
+composer require getabed/filament-translatable
 ```
 
 ## Configuration
