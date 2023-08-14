@@ -151,20 +151,22 @@ This field component accept the method *locales*, with a array parameter only wi
 **PostResource.php**
 
 ```php
- public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('author')
-                ->required(),
-                TranslatableFields::make('translations')
-                ->locales(['en', 'fr'])
-                ->fields([
-                    Forms\Components\TextInput::make('title'),
-                    Forms\Components\TextArea::make('content')
-                ])
-            ]);
-    }
+use Getabed\FilamentTranslatable\Components\TranslatableFields;
+
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Forms\Components\TextInput::make('author')
+            ->required(),
+            TranslatableFields::make('translations')
+            ->locales(['en', 'fr'])
+            ->fields([
+                Forms\Components\TextInput::make('title'),
+                Forms\Components\TextArea::make('content')
+            ])
+        ]);
+}
 ```
 
 If you need more customization for your translatabled fields you can use any other Filament field component. For example:
@@ -172,34 +174,34 @@ If you need more customization for your translatabled fields you can use any oth
 **PostResource.php**
 
 ```php
- public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('author')
-                ->required(),
-                Forms\Components\Tabs::make('translations')
-                ->tabs([
-                    Forms\Components\Tabs\Tab::make('En')
-                        ->schema([
-                            Forms\Components\TextInput::make('en.title')
-                            ->required(),
-                            Forms\Components\TextArea::make('en.content')
-                            ->required(),
-                        ]),
-                    Forms\Components\Tabs\Tab::make('Fr')
-                        ->schema([
-                            Forms\Components\TextInput::make('fr.title'),
-                            Forms\Components\TextArea::make('fr.content'),
-                        ]),
-                    Forms\Components\Tabs\Tab::make('Es_MX')
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Forms\Components\TextInput::make('author')
+            ->required(),
+            Forms\Components\Tabs::make('translations')
+            ->tabs([
+                Forms\Components\Tabs\Tab::make('En')
                     ->schema([
-                        Forms\Components\TextInput::make('es_MX.title'),
-                        Forms\Components\TextArea::make('es_MX.content'),
+                        Forms\Components\TextInput::make('en.title')
+                        ->required(),
+                        Forms\Components\TextArea::make('en.content')
+                        ->required(),
                     ]),
-                ])->columnSpan(2)
-            ]);
-    }
+                Forms\Components\Tabs\Tab::make('Fr')
+                    ->schema([
+                        Forms\Components\TextInput::make('fr.title'),
+                        Forms\Components\TextArea::make('fr.content'),
+                    ]),
+                Forms\Components\Tabs\Tab::make('Es_MX')
+                ->schema([
+                    Forms\Components\TextInput::make('es_MX.title'),
+                    Forms\Components\TextArea::make('es_MX.content'),
+                ]),
+            ])->columnSpan(2)
+        ]);
+}
 ```
 
 ### Edit form
