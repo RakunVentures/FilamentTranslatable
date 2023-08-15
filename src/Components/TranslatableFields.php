@@ -3,25 +3,29 @@
 namespace Getabed\FilamentTranslatable\Components;
 
 use Closure;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\Tabs;
 
 class TranslatableFields extends Tabs
 {
-    private ?array $fields = null;
-    private ?array $locales = null;
+    private array | Closure $fields;
+    private array | Closure | null $locales = null;
 
     public function fields(array | Closure $fields): static
     {
         $this->fields = $fields;
 
-        $tabs = $this->makeTabs();
-
-        return static::make($this->label)
-            ->tabs($tabs);
+        return $this;
     }
 
-    public function locales(array $locales): static
+    public function getChildComponents(): array
+    {
+        $tabs = $this->childComponents ?: $this->makeTabs();
+
+        return $tabs;
+    }
+
+    public function locales(array | Closure $locales): static
     {
         $this->locales = $locales;
 
@@ -43,7 +47,7 @@ class TranslatableFields extends Tabs
 
     private function getLocales(): array
     {
-        return $this->locales ?: app('translatable.locales')->all();
+        return $this->locales ? $this->evaluate($this->locales) : app('translatable.locales')->all();
     }
 
     private function makeTab(string $locale): Tab
@@ -54,15 +58,15 @@ class TranslatableFields extends Tabs
 
     private function makeFields(string $locale): array
     {
-        $fields = [];
-        foreach($this->fields as $field) {
+        $result = [];
+        $fields = $this->evaluate($this->fields);
+
+        foreach($fields as $field) {
             $name = $locale.'.'.$field->getName();
             $newField = clone $field;
-            $fields[] = $newField->name($name)->statePath($name);
+            $result[] = $newField->name($name)->statePath($name);
         }
 
-        return $fields;
+        return $result;
     }
-
-
 }

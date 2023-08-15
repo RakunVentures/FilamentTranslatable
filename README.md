@@ -118,7 +118,7 @@ class Post extends Model implements TranslatableContract
 {
     use Translatable;
 
-    protected $translationForeignKey = 'id_post'; 
+    protected $translationForeignKey = 'my_post_id'; 
     
     //...
 }
@@ -126,27 +126,7 @@ class Post extends Model implements TranslatableContract
 
 ## Filament Form
 
-To add a section with fields that will be translated, you can use the **use Getabed\Filament Translatable\Components\Translatable Fields** component in your Filament resource.
-
-**PostResource.php**
-
-```php
- public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('author')
-                ->required(),
-                TranslatableFields::make('translations')
-                ->fields([
-                    Forms\Components\TextInput::make('title'),
-                    Forms\Components\TextArea::make('content')
-                ])
-            ]);
-    }
-```
-
-This field component accept the method *locales*, with a array parameter only with the locales that you want to show in your form. 
+To add a section with fields that will be translated, you can use the **Getabed\FilamentTranslatable\Components\TranslatableFields** component in your Filament resource.
 
 **PostResource.php**
 
@@ -160,7 +140,44 @@ public static function form(Form $form): Form
             Forms\Components\TextInput::make('author')
             ->required(),
             TranslatableFields::make('translations')
-            ->locales(['en', 'fr'])
+            ->fields([
+                Forms\Components\TextInput::make('title'),
+                Forms\Components\TextArea::make('content')
+            ])
+        ]);
+}
+```
+This component extends from [Tabs](https://filamentphp.com/docs/2.x/forms/layout#tabs) field component, so you can use any of the methods that this class has. Ex.:
+
+```php
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Forms\Components\TextInput::make('author')
+            ->required(),
+            TranslatableFields::make('translations')
+            ->fields([
+                Forms\Components\TextInput::make('title'),
+                Forms\Components\TextArea::make('content')
+            ])
+            ->activetab(2)
+            ->columnSpanFull()
+        ]);
+}
+```
+
+This component also includes the *locales* method, which allows to display only the locale tabs that you want to display on the form.
+
+```php
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Forms\Components\TextInput::make('author')
+            ->required(),
+            TranslatableFields::make('translations')
+            ->locales(['en', 'pt'])
             ->fields([
                 Forms\Components\TextInput::make('title'),
                 Forms\Components\TextArea::make('content')
@@ -169,7 +186,28 @@ public static function form(Form $form): Form
 }
 ```
 
-If you need more customization for your translatabled fields you can use any other Filament field component. For example:
+Both methods, *fields* and *locales*, accepts an array or a Closure as parameter.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+public static function form(Form $form): Form
+{
+    return $form
+        ->schema([
+            Forms\Components\TextInput::make('author')
+            ->required(),
+            TranslatableFields::make('translations')
+            ->locales(fn(Model $record) => $record->supportedLocales())
+            ->fields([
+                Forms\Components\TextInput::make('title'),
+                Forms\Components\TextArea::make('content')
+            ])
+        ]);
+}
+```
+
+If you need more customization for your translatabled fields you can use the method *tabs* or any other Filament field component. For example:
 
 **PostResource.php**
 
@@ -180,7 +218,7 @@ public static function form(Form $form): Form
         ->schema([
             Forms\Components\TextInput::make('author')
             ->required(),
-            Forms\Components\Tabs::make('translations')
+            TranslatableFields::make('translations')
             ->tabs([
                 Forms\Components\Tabs\Tab::make('En')
                     ->schema([
@@ -216,7 +254,6 @@ to the edit resource page.
 *EditPost.php**
 
 ```php
-//...
 use Getabed\FilamentTranslatable\Traits\FillTranslatableFormAttibuttes;
 
 class EditPost extends EditRecord
